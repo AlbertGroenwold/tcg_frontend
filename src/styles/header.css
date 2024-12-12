@@ -1,0 +1,94 @@
+@import "@fortawesome/fontawesome-free/css/all.min.css";
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-section {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Icon button styling */
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 24px; /* Adjust icon size */
+  cursor: pointer;
+  color: white; /* Example color */
+}
+
+/* Hamburger menu dropdown */
+.hamburger-menu {
+  position: relative; /* For dropdown positioning */
+}
+
+/* Dropdown menu styles */
+.dropdown-menu {
+  position: absolute;
+  top: 100%; /* Place it below the button */
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+.dropdown-menu li:hover {
+  background-color: #f4f4f4;
+}
+
+.social-media-icons {
+  display: flex;
+  gap: 10px; /* Spacing between icons */
+  margin-bottom: 5px; /* Space between icons and logo */
+}
+
+.social-media-icons a {
+  font-size: 15px;
+  color: white;
+  text-decoration: none;
+}
+
+.social-media-icons a:hover {
+  color: #0077b5; /* Change color on hover (e.g., blue for Facebook) */
+}
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 300px; /* Adjust width as needed */
+}
+#search-bar {
+  width: 100%;
+  padding: 8px;
+}
+.search-btn {
+  padding: 8px 12px;
+  color: black;
+  border: none;
+  cursor: pointer;/* Space between input and button */
+  font-size: 16px;
+}
+.search-btn:hover {
+  background-color: #0056b3;
+}
