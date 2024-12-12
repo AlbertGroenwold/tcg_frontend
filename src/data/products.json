@@ -1,0 +1,10 @@
+{
+    "Pokémon": {
+        "Sealed Product": ["Booster Packs", "Booster Boxes", "Elite Trainer Boxes", "Tins"],
+        "Opened Product": {
+            "Series 1": ["Expansion 1A", "Expansion 1B"],
+            "Series 2": ["Expansion 2A", "Expansion 2B"]
+        }
+    },
+    "Accessories": ["Sleeves", "Binders", "Deck Boxes"]
+}

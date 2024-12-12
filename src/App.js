@@ -1,20 +1,27 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
 import Footer from './components/footer';
+import CollectionsPage from './components/collections'; // Import the CollectionsPage
 
 const App = () => {
     return (
-        <div className="app-container">
-            <Header />
-            <div className="main-content">
-                <Sidebar />
-                <div className="content">
-                    <h2>Welcome to the Store</h2>
+        <Router>
+            <div className="app-container">
+                <Header />
+                <div className="main-content">
+                    <Sidebar />
+                    <div className="content">
+                        <Routes>
+                            <Route path="/" element={<h2>Welcome to the Store</h2>} />
+                            <Route path="/collections/:category" element={<CollectionsPage />} />
+                        </Routes>
+                    </div>
                 </div>
+                <Footer />
             </div>
-            <Footer />
-        </div>
+        </Router>
     );
 };
 
