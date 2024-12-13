@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from '../styles/header.module.css';
 
 const Header = () => {
   const handleInfoClick = () => {
@@ -19,7 +20,7 @@ const Header = () => {
   return (
     <header>
       <div className="left-section">
-        <div className="social-media-icons">
+        <div className={styles.social_media_icons}>
           <a
             href="https://facebook.com"
             className="fab fa-facebook"
@@ -38,28 +39,28 @@ const Header = () => {
         </div>
         <div className="logo">Logo</div>
       </div>
-      <div className="search-container">
+      <div className={styles.search_container}>
       <input
         type="text"
         value={searchQuery}
         onChange={handleSearchChange}
-        id="search-bar"
+        id={styles.search_bar}
         placeholder="Search..."
       />
-      <button className="search-btn fa-solid fa-magnifying-glass" onClick={handleSearch}>
+      <button className={`${styles.search_btn} fa-solid fa-magnifying-glass`} onClick={handleSearch}>
       </button>
       </div>
-      <div className="right-section">
+      <div className={styles.right_section}>
         <button
-          className="icon-btn fa-solid fa-circle-info"
+          className={`${styles.icon_btn} fa-solid fa-circle-info`}
           aria-label="Information"
           onClick={handleInfoClick}
         />
 
-        <button className="icon-btn" aria-label="Shopping Cart">
+        <button className={styles.icon_btn} aria-label="Shopping Cart">
           <i className="fas fa-shopping-cart"></i>
         </button>
-        <button className="icon-btn" aria-label="Account Page">
+        <button className={styles.icon_btn} aria-label="Account Page">
           <i className="fas fa-user"></i>
         </button>
       </div>
