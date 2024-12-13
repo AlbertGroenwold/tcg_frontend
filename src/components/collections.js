@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom'; // Import Link for navigation
 import axios from 'axios';
 
 const CollectionsPage = () => {
@@ -20,7 +20,10 @@ const CollectionsPage = () => {
             {items.length > 0 ? (
                 <ul>
                     {items.map((item) => (
-                        <li key={item.id}>{item.name}</li>
+                        <li key={item.id}>
+                            {/* Link to the product detail page */}
+                            <Link to={`/product/${item.id}`}>{item.name}</Link>
+                        </li>
                     ))}
                 </ul>
             ) : (
