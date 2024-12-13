@@ -1,4 +1,3 @@
-@import "@fortawesome/fontawesome-free/css/all.min.css";
 
 header {
     background-color: #333;
@@ -9,14 +8,14 @@ header {
     align-items: center;
 }
 
-.right-section {
+.right_section {
     display: flex;
     align-items: center;
     gap: 5px;
   }
 
   /* Icon button styling */
-.icon-btn {
+.icon_btn {
   background: none;
   border: none;
   font-size: 24px; /* Adjust icon size */
@@ -25,12 +24,12 @@ header {
 }
 
 /* Hamburger menu dropdown */
-.hamburger-menu {
+.hamburger_menu {
   position: relative; /* For dropdown positioning */
 }
 
 /* Dropdown menu styles */
-.dropdown-menu {
+.dropdown_menu {
   position: absolute;
   top: 100%; /* Place it below the button */
   right: 0;
@@ -44,45 +43,46 @@ header {
   z-index: 1000;
 }
 
-.dropdown-menu li {
+.dropdown_menu li {
   padding: 10px 20px;
 }
 
-.dropdown-menu li a {
+.dropdown_menu li a {
   text-decoration: none;
   color: #333;
   display: block;
 }
 
-.dropdown-menu li:hover {
+.dropdown_menu li:hover {
   background-color: #f4f4f4;
 }
 
-.social-media-icons {
+.social_media_icons {
   display: flex;
   gap: 10px; /* Spacing between icons */
   margin-bottom: 5px; /* Space between icons and logo */
 }
 
-.social-media-icons a {
+.social_media_icons a {
   font-size: 15px;
   color: white;
   text-decoration: none;
 }
 
-.social-media-icons a:hover {
+.social_media_icons a:hover {
   color: #0077b5; /* Change color on hover (e.g., blue for Facebook) */
 }
-.search-container {
+
+.search_container {
   display: flex;
   align-items: center;
   width: 300px; /* Adjust width as needed */
 }
-#search-bar {
+#search_bar {
   width: 100%;
   padding: 8px;
 }
-.search-btn {
+.search_btn {
   padding: 8px 12px;
   color: black;
   border: none;
