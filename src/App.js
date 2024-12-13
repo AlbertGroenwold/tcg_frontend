@@ -4,6 +4,7 @@ import Header from './components/header';
 import Sidebar from './components/sidebar';
 import Footer from './components/footer';
 import CollectionsPage from './components/collections'; // Import the CollectionsPage
+import ProductDetailPage from './components/product';
 
 const App = () => {
     return (
@@ -16,6 +17,7 @@ const App = () => {
                         <Routes>
                             <Route path="/" element={<h2>Welcome to the Store</h2>} />
                             <Route path="/collections/:category" element={<CollectionsPage />} />
+                            <Route path="/product/:id" element={<ProductDetailPage />} />
                         </Routes>
                     </div>
                 </div>
