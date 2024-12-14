@@ -5,6 +5,7 @@ import Sidebar from './components/sidebar';
 import Footer from './components/footer';
 import CollectionsPage from './components/collections'; // Import the CollectionsPage
 import ProductDetailPage from './components/product';
+import SearchResultsPage from './components/search_results';
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                             <Route path="/" element={<h2>Welcome to the Store</h2>} />
                             <Route path="/collections/:category" element={<CollectionsPage />} />
                             <Route path="/product/:id" element={<ProductDetailPage />} />
+                            <Route path="/results" element={<SearchResultsPage />} />
                         </Routes>
                     </div>
                 </div>

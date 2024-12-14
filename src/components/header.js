@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import styles from '../styles/header.module.css';
+import styles from "../styles/header.module.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const handleInfoClick = () => {
@@ -7,15 +8,27 @@ const Header = () => {
     const footer = document.getElementById("footer");
     footer.scrollIntoView({ behavior: "smooth" });
   };
+
+  const navigate = useNavigate();  // Use navigate hook from react-router
   const [searchQuery, setSearchQuery] = useState("");
+  const [items, setItems] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value); // Update the state with the current input value
   };
 
   const handleSearch = () => {
-    alert("Searching for: " + searchQuery); // Handle search logic (you can replace this with actual logic)
+    if (!searchQuery) return;  // Don't search if query is empty
+
+    try {
+      // Navigate to the search results page and pass the query as a URL parameter
+      navigate(`/results?item=${encodeURIComponent(searchQuery)}`);
+    } catch (err) {
+      console.error(err);  // Log error for debugging
+    }
   };
+
+  
 
   return (
     <header>
@@ -37,18 +50,20 @@ const Header = () => {
             aria-label="Instagram"
           ></a>
         </div>
-        <div className="logo">Logo</div>
+        <div className="logo"><a href="/">Logo</a></div>
       </div>
       <div className={styles.search_container}>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={handleSearchChange}
-        id={styles.search_bar}
-        placeholder="Search..."
-      />
-      <button className={`${styles.search_btn} fa-solid fa-magnifying-glass`} onClick={handleSearch}>
-      </button>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          id={styles.search_bar}
+          placeholder="Search..."
+        />
+        <button
+          className={`${styles.search_btn} fa-solid fa-magnifying-glass`}
+          onClick={handleSearch}
+        ></button>
       </div>
       <div className={styles.right_section}>
         <button
@@ -64,7 +79,6 @@ const Header = () => {
           <i className="fas fa-user"></i>
         </button>
       </div>
-
     </header>
   );
 };
