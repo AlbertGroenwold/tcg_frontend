@@ -7,6 +7,7 @@ import CollectionsPage from './components/collections'; // Import the Collection
 import ProductDetailPage from './components/product';
 import AccountPage from './components/account';
 import RegisterPage from './components/register';
+import SearchResultsPage from './components/search_results';
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                             <Route path="/account" element={<AccountPage />} />
                             <Route path="/register" element={<RegisterPage />} />
                             <Route path="/orders/:orderId" element={<AccountPage />} />
+                            <Route path="/results" element={<SearchResultsPage />} />
                         </Routes>
                     </div>
                 </div>
