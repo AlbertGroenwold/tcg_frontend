@@ -11,7 +11,6 @@ const Header = () => {
 
   const navigate = useNavigate();  // Use navigate hook from react-router
   const [searchQuery, setSearchQuery] = useState("");
-  const [items, setItems] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value); // Update the state with the current input value
@@ -28,7 +27,9 @@ const Header = () => {
     }
   };
 
-  
+  const handleAccountClick = () => {
+    navigate("/account"); // Navigate to the account page
+  };
 
   return (
     <header>
@@ -75,7 +76,11 @@ const Header = () => {
         <button className={styles.icon_btn} aria-label="Shopping Cart">
           <i className="fas fa-shopping-cart"></i>
         </button>
-        <button className={styles.icon_btn} aria-label="Account Page">
+        <button
+          className={styles.icon_btn}
+          aria-label="Account Page"
+          onClick={handleAccountClick} // Add click handler for Account button
+        >
           <i className="fas fa-user"></i>
         </button>
       </div>
