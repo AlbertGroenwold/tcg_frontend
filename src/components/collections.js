@@ -22,7 +22,7 @@ const CollectionsPage = () => {
                     {items.map((item) => (
                         <li key={item.id}>
                             {/* Link to the product detail page */}
-                            <Link to={`/product/${item.id}`}>{item.name}</Link>
+                            <Link to={`/product/${encodeURIComponent(item.name)}`}>{item.name}</Link>
                         </li>
                     ))}
                 </ul>
