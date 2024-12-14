@@ -1,0 +1,74 @@
+footer {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo {
+  padding-bottom: 20px;
+}
+
+.link-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.social_media_icons {
+  display: flex;
+  gap: 10px; /* Spacing between icons */
+  margin-bottom: 5px; /* Space between icons and logo */
+}
+
+.social_media_icons a {
+  font-size: 15px;
+  color: white;
+  text-decoration: none;
+}
+
+.social_media_icons a:hover {
+  color: #0077b5; /* Change color on hover (e.g., blue for Facebook) */
+}
+
+/* Removes bullets and padding */
+.link_list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Optional: Style the links */
+.link_list a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.link_list a:hover {
+  text-decoration: underline;
+}
+
+.center {
+  width: 500px; /* Set the fixed width */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.company_desc {
+  width: 25%; 
+}
+
+.left_section{
+  width: 25%;
+}
+.payment_options{
+  width: 25%; 
+}
+.quick_links{
+  width: 25%; 
+}
+
