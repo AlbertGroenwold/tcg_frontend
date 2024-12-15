@@ -4,7 +4,7 @@ import axios from 'axios';
 import QuantitySelector from './quantity_selector';
 
 const ProductDetailPage = () => {
-    const { name: itemName } = useParams();
+    const { name: itemName } = useParams(); // Use name from the route parameters
     const [product, setProduct] = useState(null);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
@@ -12,25 +12,27 @@ const ProductDetailPage = () => {
         // Fetch product details from the backend
         axios
             .get(`http://127.0.0.1:8000/api/items/${encodeURIComponent(itemName)}/`) // Use `name` in the URL
-            .then((response) => setProduct(response.data))
+            .then((response) => {
+                console.log('Product data:', response.data); // Debugging
+                setProduct(response.data);
+            })
             .catch((error) => console.error('Error fetching product details:', error));
     }, [itemName]);
 
     if (!product) {
-        console.error(itemName)
         return <p>Loading product details...</p>;
     }
 
     const handleQuantityChange = (quantity) => {
         setSelectedQuantity(quantity);
         console.log(`Selected quantity: ${quantity}`); // Debugging purpose
-    }
+    };
 
     const handleAddToCart = () => {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        
+
         // Check if the product is already in the cart
-        const existingProductIndex = cart.findIndex(item => item.id === product.id);
+        const existingProductIndex = cart.findIndex((item) => item.id === product.id);
 
         if (existingProductIndex !== -1) {
             // If the product exists, update the quantity
@@ -55,7 +57,12 @@ const ProductDetailPage = () => {
     return (
         <div style={{ padding: '20px' }}>
             <h1>{product.name}</h1>
-            <p><strong>Category:</strong> {product.category}</p>
+            <p>
+                <strong>Categories:</strong>{' '}
+                {product.categories && product.categories.length > 0
+                    ? product.categories.map((category) => category.name).join(', ')
+                    : 'No categories'}
+            </p>
             <p><strong>Description:</strong> {product.description}</p>
             <p><strong>Price:</strong> ${product.price}</p>
             <p><strong>Stock:</strong> {product.stock}</p>
@@ -78,10 +85,10 @@ const ProductDetailPage = () => {
                 Add to Cart
             </button>
             {product.image && (
-                <img 
+                <img
                     src={product.image} // Use the absolute URL directly
-                    alt={product.name} 
-                    style={{ maxWidth: '300px' }} 
+                    alt={product.name}
+                    style={{ maxWidth: '300px' }}
                 />
             )}
         </div>

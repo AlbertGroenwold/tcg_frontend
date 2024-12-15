@@ -1,131 +1,74 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import products from '../data/products.json'; // Import JSON data
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles.css"; // Import the external CSS file
 
-const Sidebar = () => {
-    const [expanded, setExpanded] = useState([]);
-    const [hoveredItem, setHoveredItem] = useState(null);
-    const [panePosition, setPanePosition] = useState({ top: 0, left: 0 });
-    const [isHoveringPane, setIsHoveringPane] = useState(false);
+const Sidebar = ({ categories = [] }) => {
+  const [expanded, setExpanded] = useState([]); // Track expanded sections
+  const [selectedCategory, setSelectedCategory] = useState(null); // Track the selected category
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  // Toggle expand/collapse for a section
+  const toggleExpand = (categoryId, parentId = null) => {
+    if (expanded.includes(categoryId)) {
+      setExpanded((prev) => prev.filter((id) => id !== categoryId));
+    } else {
+      if (parentId === null) {
+        setExpanded([categoryId]); // Collapse other top-level categories
+      } else {
+        setExpanded((prev) => [...prev, categoryId]);
+      }
+    }
+  };
 
-    const toggleExpand = (item) => {
-        if (expanded.includes(item)) {
-            setExpanded((prev) => prev.filter((i) => !i.startsWith(item)));
-        } else {
-            setExpanded((prev) => [...prev.filter((i) => !i.startsWith(item)), item]);
-        }
-    };
+  // Handle category clicks
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category.id); // Set the clicked category as selected
 
-    const handleMouseEnter = (item, event) => {
-        const rect = event.target.getBoundingClientRect();
-        const sidebarRect = event.target.closest('aside').getBoundingClientRect();
-        setPanePosition({
-            top: rect.top - sidebarRect.top,
-            left: rect.right - sidebarRect.left - 20,
-        });
-        setHoveredItem(item);
-    };
+    if (category.children && category.children.length > 0) {
+      toggleExpand(category.id, category.parent);
+    } else {
+      navigate(`/collections/${encodeURIComponent(category.name)}`);
+    }
+  };
 
-    const handleMouseLeave = () => {
-        if (!isHoveringPane) {
-            setHoveredItem(null);
-        }
-    };
-
-    const handleClickInPane = (item) => {
-        // Navigate to the collections page with the selected category
-        navigate(`/collections/${item}`);
-    };
-
-    const renderItems = (data, level = 0, parent = '') => {
-        return (
-            <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                {Object.keys(data).map((key) => {
-                    const fullPath = parent ? `${parent}.${key}` : key;
-                    if (Array.isArray(data[key])) {
-                        return (
-                            <li
-                                key={key}
-                                className={`level-${level}`}
-                                onMouseEnter={(event) =>
-                                    handleMouseEnter({ title: key, items: data[key] }, event)
-                                }
-                                onMouseLeave={handleMouseLeave}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {key}
-                            </li>
-                        );
-                    } else if (typeof data[key] === 'object') {
-                        return (
-                            <li key={key} className={`level-${level}`}>
-                                <span
-                                    style={{
-                                        cursor: 'pointer',
-                                        fontWeight: level === 0 ? 'bold' : 'normal',
-                                    }}
-                                    onClick={() => toggleExpand(fullPath)}
-                                >
-                                    {key}
-                                </span>
-                                {expanded.includes(fullPath) && (
-                                    <div style={{ marginLeft: '20px' }}>{renderItems(data[key], level + 1, fullPath)}</div>
-                                )}
-                            </li>
-                        );
-                    }
-                    return null;
-                })}
-            </ul>
-        );
-    };
-
+  // Recursive function to render categories and their children
+  const renderCategories = (categories, level = 0) => {
     return (
-        <aside style={{ position: 'relative', width: '200px', background: '#f4f4f4', padding: '10px' }}>
-            <nav>{renderItems(products)}</nav>
-            {hoveredItem && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: `${panePosition.top}px`,
-                        left: `${panePosition.left}px`,
-                        backgroundColor: '#f4f4f4',
-                        padding: '10px',
-                        border: '1px solid #ccc',
-                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
-                        zIndex: 100,
-                    }}
-                    onMouseEnter={() => setIsHoveringPane(true)}
-                    onMouseLeave={() => {
-                        setIsHoveringPane(false);
-                        setHoveredItem(null);
-                    }}
-                >
-                    <h4>{hoveredItem.title}</h4>
-                    <ul style={{ listStyleType: 'none', padding: 0, margin: 0 }}>
-                        {hoveredItem.items.map((item, index) => (
-                            <li key={index}>
-                                <button
-                                    onClick={() => handleClickInPane(item)}
-                                    style={{
-                                        background: 'none',
-                                        border: 'none',
-                                        color: 'blue',
-                                        cursor: 'pointer',
-                                        textDecoration: 'underline',
-                                    }}
-                                >
-                                    {item}
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </aside>
+      <ul className={`sidebar-list ${level === 0 ? "top-level" : "nested"}`}>
+        {categories.map((category) => {
+          const isSelected = selectedCategory === category.id;
+          const isAncestor =
+            expanded.includes(category.id) ||
+            category.children?.some(
+              (child) =>
+                selectedCategory === child.id || expanded.includes(child.id)
+            );
+
+          return (
+            <li key={category.id} className="sidebar-item">
+              <span
+                className={`sidebar-link ${
+                  isSelected || isAncestor ? "bold" : ""
+                }`}
+                onClick={() => handleCategoryClick(category)}
+              >
+                {category.name}
+              </span>
+              {expanded.includes(category.id) &&
+                category.children &&
+                renderCategories(category.children, level + 1)}
+            </li>
+          );
+        })}
+      </ul>
     );
+  };
+
+  return (
+    <aside className="sidebar-container">
+      <nav>{renderCategories(categories)}</nav>
+    </aside>
+  );
 };
 
 export default Sidebar;
