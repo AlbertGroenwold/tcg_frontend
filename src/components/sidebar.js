@@ -1,11 +1,20 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles.css"; // Import the external CSS file
 
 const Sidebar = ({ categories = [] }) => {
   const [expanded, setExpanded] = useState([]); // Track expanded sections
   const [selectedCategory, setSelectedCategory] = useState(null); // Track the selected category
   const navigate = useNavigate();
+  const location = useLocation(); // Hook to monitor the current route
+
+  // Reset expanded state when location changes
+  useEffect(() => {
+    if (location.pathname === "/cart" || location.pathname === "/account") {
+      setExpanded([]); // Reset expanded categories
+      setSelectedCategory(null); // Clear selected category
+    }
+  }, [location.pathname]);
 
   // Toggle expand/collapse for a section
   const toggleExpand = (categoryId, parentId = null) => {

@@ -28,9 +28,7 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    // Placeholder for future checkout functionality
-    console.log("Proceeding to checkout with:", cart);
-    alert("Checkout functionality coming soon!");
+    navigate("/checkout");
   };
 
   const handleContinueShopping = () => {
