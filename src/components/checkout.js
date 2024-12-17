@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Login from "./login";
+import LoginModal from "./checkout/login_modal";
+import AddressForm from "./checkout/address_form";
+import OrderSummary from "./checkout/order_summary";
+import ConfirmationScreen from "./confirmation";
 
 const CheckoutPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -9,6 +12,7 @@ const CheckoutPage = () => {
   const [showDeliveryForm, setShowDeliveryForm] = useState(false);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [showLogin, setShowLogin] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -41,268 +45,190 @@ const CheckoutPage = () => {
     const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(savedCart);
 
-    // Check if user is logged in
     const userEmail = sessionStorage.getItem("userEmail");
     const token = sessionStorage.getItem("accessToken");
+
     if (userEmail && token) {
       setUserLoggedIn(true);
-      setFormData((prevData) => ({
-        ...prevData,
-        email: userEmail,
-      }));
-
-      // Fetch user addresses
-      fetch(`http://127.0.0.1:8000/api/user/${userEmail}/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Failed to fetch addresses.");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (data.addresses && data.addresses.length > 0) {
-            setAddresses(data.addresses);
-            setShowDeliveryForm(false); // Show saved addresses by default
-          } else {
-            setShowDeliveryForm(true); // No saved addresses; show delivery form
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching addresses:", error);
-          setShowDeliveryForm(true); // Show form on error
-        });
-    } else {
-      setShowDeliveryForm(true); // Show delivery form for logged-out users
+      setFormData((prevData) => ({ ...prevData, email: userEmail }));
+      fetchAddresses(userEmail, token);
     }
   }, []);
 
-  const handleDeliveryAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      deliveryAddress: { ...formData.deliveryAddress, [name]: value },
-    });
-  };
-
-  const handleAddressSelection = (e) => {
-    setSelectedAddressId(parseInt(e.target.value, 10));
-    setShowDeliveryForm(false); // Close delivery form
-  };
-
-  const handleUseDifferentAddress = () => {
-    setSelectedAddressId(null); // Deselect any saved address
-    setShowDeliveryForm(true); // Show delivery form
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleBillingAddressChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      billingAddress: { ...formData.billingAddress, [name]: value },
-    });
-  };
-
-  const handleBillingOptionChange = (e) => {
-    setFormData({
-      ...formData,
-      billingAddressSame: e.target.value === "same",
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Order Submitted:", {
-      formData,
-      selectedAddressId,
-      cartItems,
-    });
-  };
-
-  const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
-
-  const renderAddressForm = (addressData, handleChange) => (
-    <div>
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First name"
-          value={addressData.firstName || ""}
-          onChange={handleChange}
-          style={{ flex: 1, padding: "10px" }}
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last name"
-          value={addressData.lastName || ""}
-          onChange={handleChange}
-          style={{ flex: 1, padding: "10px" }}
-          required
-        />
-      </div>
-      <input
-        type="text"
-        name="address"
-        placeholder="Address"
-        value={addressData.address || ""}
-        onChange={handleChange}
-        style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-        required
-      />
-      <input
-        type="text"
-        name="suburb"
-        placeholder="Suburb"
-        value={addressData.suburb || ""}
-        onChange={handleChange}
-        style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-      />
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <input
-          type="text"
-          name="city"
-          placeholder="City"
-          value={addressData.city || ""}
-          onChange={handleChange}
-          style={{ flex: 1, padding: "10px" }}
-          required
-        />
-        <select
-          name="province"
-          value={addressData.province || ""}
-          onChange={handleChange}
-          style={{ flex: 1, padding: "10px" }}
-          required
-        >
-          <option value="">Select Province</option>
-          <option value="Free State">Free State</option>
-          <option value="Gauteng">Gauteng</option>
-          <option value="KwaZulu-Natal">KwaZulu-Natal</option>
-          <option value="Limpopo">Limpopo</option>
-          <option value="Mpumalanga">Mpumalanga</option>
-          <option value="North West">North West</option>
-          <option value="Northern Cape">Northern Cape</option>
-          <option value="Western Cape">Western Cape</option>
-          <option value="Eastern Cape">Eastern Cape</option>
-        </select>
-        <input
-          type="text"
-          name="postalCode"
-          placeholder="Postal Code"
-          value={addressData.postalCode || ""}
-          onChange={handleChange}
-          style={{ flex: 1, padding: "10px" }}
-          required
-        />
-      </div>
-      <input
-        type="tel"
-        name="phone"
-        placeholder="Phone"
-        value={addressData.phone || ""}
-        onChange={handleChange}
-        style={{ width: "100%", padding: "10px", marginTop: "10px" }}
-      />
-    </div>
-  );
-
-  const handleLoginSuccess = (email) => {
-    setShowLogin(false);
-    setUserLoggedIn(true);
-    setFormData((prevData) => ({ ...prevData, email }));
-    // Fetch addresses after login
-    const token = sessionStorage.getItem("accessToken");
+  const fetchAddresses = (email, token) => {
     fetch(`http://127.0.0.1:8000/api/user/${email}/`, {
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch addresses (Status: ${response.status})`);
+        }
+        return response.json();
+      })
       .then((data) => {
-        setAddresses(data.addresses || []);
-        setShowDeliveryForm(data.addresses.length === 0);
+        if (data.addresses?.length) {
+          setAddresses(data.addresses);
+          setSelectedAddressId(data.addresses[0].id);
+  
+          const firstAddress = data.addresses[0];
+          setFormData((prevData) => ({
+            ...prevData,
+            deliveryAddress: {
+              address: firstAddress.address || "",
+              city: firstAddress.city || "",
+              province: firstAddress.province || "",
+              postalCode: firstAddress.postal_code || "",
+              phone: firstAddress.phone || "",
+              firstName: prevData.deliveryAddress.firstName || "",
+              lastName: prevData.deliveryAddress.lastName || "",
+            },
+          }));
+          setShowDeliveryForm(false);
+        } else {
+          setShowDeliveryForm(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching addresses:", error.message);
+        alert("Failed to fetch addresses. Please try again.");
       });
   };
   
-  // Place Login Modal here
-  const LoginModal = ({ onClose, onLogin }) => (
-    <div
-      style={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "white",
-          padding: "20px",
-          borderRadius: "5px",
-          position: "relative",
-          width: "400px",
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: "absolute",
-            top: "10px",
-            right: "10px",
-            background: "none",
-            border: "none",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          ✕
-        </button>
-        <Login onLogin={onLogin} />
-      </div>
-    </div>
+
+  const subtotal = cartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
   );
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    const token = sessionStorage.getItem("accessToken");
+  
+    // Validate delivery address
+    const { address, city, province, postalCode } = formData.deliveryAddress;
+    if (!address || !city || !province || !postalCode) {
+      alert("Please complete the delivery address before proceeding.");
+      return;
+    }
+  
+    const orderData = {
+      cart_items: cartItems.map((item) => ({
+        id: item.id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      delivery_address: formData.deliveryAddress,
+      billing_address: formData.billingAddressSame
+        ? formData.deliveryAddress
+        : formData.billingAddress,
+      subtotal,
+    };
+  
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/create-order/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(orderData),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create order");
+      }
+  
+      const data = await response.json();
+      const orderId = data.order_id;
+  
+      // Navigate to confirmation screen with ORDERID
+      navigate(`/confirm/order/${orderId}`);
+    } catch (error) {
+      console.error("Error creating order:", error);
+      alert("An error occurred while processing your order.");
+    }
+  };
+  
+  const handleLogout = () => {
+    // Clear sessionStorage to log the user out
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("userEmail");
+  
+    // Reset state for logged-out users
+    setUserLoggedIn(false);
+    setFormData((prevData) => ({
+      ...prevData,
+      email: "", // Clear the email field
+      deliveryAddress: {
+        firstName: "",
+        lastName: "",
+        address: "",
+        suburb: "",
+        city: "",
+        province: "",
+        postalCode: "",
+        phone: "",
+      },
+    }));
+  
+    setAddresses([]); // Clear saved addresses
+    setSelectedAddressId(null);
+    setShowDeliveryForm(true); // Show delivery form for guest
+    console.log("User logged out, continuing as guest.");
+  };
   
   
+
+  const handleUseDifferentAddress = () => {
+    setSelectedAddressId(null);
+    setShowDeliveryForm(true);
+  };
+
+  const handleAddressSelection = (e) => {
+    const selectedId = parseInt(e.target.value, 10);
+    setSelectedAddressId(selectedId);
   
+    // Find the selected address
+    const selectedAddress = addresses.find((address) => address.id === selectedId);
   
+    // Populate the formData.deliveryAddress with the selected address
+    setFormData((prevData) => ({
+      ...prevData,
+      deliveryAddress: {
+        address: selectedAddress.address || "",
+        suburb: selectedAddress.suburb || "",
+        city: selectedAddress.city || "",
+        province: selectedAddress.province || "",
+        postalCode: selectedAddress.postal_code || "",
+        phone: selectedAddress.phone || "",
+        firstName: prevData.deliveryAddress.firstName || "", // Use previously input firstName
+        lastName: prevData.deliveryAddress.lastName || "", // Use previously input lastName
+      },
+    }));
   
+    setShowDeliveryForm(false);
+  };
+  
+
+  if (showConfirmation) {
+    return (
+      <ConfirmationScreen
+        formData={formData}
+        cartItems={cartItems}
+        subtotal={subtotal}
+      />
+    );
+  }
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "20px" }}>
       {/* Header */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <Link to="/" style={{ fontSize: "24px", fontWeight: "bold" }}>
-          MyStore Logo
-        </Link>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+        <Link to="/" style={{ fontSize: "24px", fontWeight: "bold" }}>MyStore Logo</Link>
         <button
           onClick={() => navigate("/cart")}
           style={{
@@ -317,100 +243,134 @@ const CheckoutPage = () => {
       </div>
 
       {/* Login Modal */}
-      {showLogin && (
-        <LoginModal
+        {showLogin && (
+          <LoginModal
           onClose={() => setShowLogin(false)}
-          onLogin={handleLoginSuccess}
+          onLogin={(email, token) => {
+            setUserLoggedIn(true);
+            setFormData((prevData) => ({ ...prevData, email }));
+            fetchAddresses(email, token); // Fetch addresses using the valid token
+            setShowLogin(false); // Close the modal
+          }}
         />
-      )}
+        )}
+
 
       <div style={{ display: "flex", justifyContent: "center", gap: "50px" }}>
         {/* Left Section */}
         <div style={{ flex: "1", maxWidth: "600px" }}>
           <form onSubmit={handleSubmit}>
-          <h2>
-            Contact{" "}
-            {!userLoggedIn && (
-              <button
-              type="button" // Prevents form submission
-              onClick={() => {
-                setShowLogin(true);
-                console.log("showLogin set to true");
-              }}
-            >
-              Open Login
-            </button>
-            )}
-          </h2>
-          <input
-  type="email"
-  name="email"
-  placeholder="Email"
-  value={formData.email}
-  onChange={handleChange}
-  style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
-  required
-  readOnly={userLoggedIn} // Prevents editing if user is logged in
-/>
-
-<h2>Delivery</h2>
-{userLoggedIn && addresses.length > 0 && !showDeliveryForm ? (
-  <>
-    <p>Select an address:</p>
-    {addresses.map((address) => (
-      <label key={address.id} style={{ display: "block" }}>
-        <input
-          type="radio"
-          name="selectedAddressId"
-          value={address.id}
-          checked={selectedAddressId === address.id}
-          onChange={handleAddressSelection}
-        />
-        {`${address.address}, ${address.city}, ${address.province}, ${address.postalCode}`}
-      </label>
-    ))}
+            {/* Contact */}
+            <h2>
+  Contact{" "}
+  {userLoggedIn ? (
+    // If the user is logged in, show "Continue as Guest" button
     <button
       type="button"
-      onClick={handleUseDifferentAddress}
+      onClick={handleLogout} // Call the logout handler
       style={{
-        marginTop: "10px",
-        padding: "10px",
-        backgroundColor: "black",
-        color: "white",
-        border: "none",
+        marginLeft: "10px",
         cursor: "pointer",
+        color: "red", // Optional: Make the text red to differentiate
+        background: "none",
+        border: "none",
       }}
     >
-      Use a Different Address
+      Continue as Guest
     </button>
-  </>
-) : (
-  renderAddressForm(formData.deliveryAddress, handleDeliveryAddressChange) // Render delivery form dynamically
-)}
+  ) : (
+    // If not logged in, show the "Login" button
+    <button
+      type="button"
+      onClick={() => setShowLogin(true)} // Open the login modal
+      style={{ marginLeft: "10px", cursor: "pointer" }}
+    >
+      Login
+    </button>
+  )}
+</h2>
 
-            <h2>Payment Details</h2>
-            <h3>Billing Address</h3>
+            <input
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              readOnly={userLoggedIn}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
+              required
+            />
+
+            {/* Delivery */}
+            <h2>Delivery</h2>
+            {userLoggedIn && addresses.length > 0 && !showDeliveryForm ? (
+              <>
+                <p>Select an address:</p>
+                {addresses.map((address) => (
+                  <label key={address.id} style={{ display: "block" }}>
+                    <input
+                      type="radio"
+                      name="selectedAddressId"
+                      value={address.id}
+                      checked={selectedAddressId === address.id}
+                      onChange={handleAddressSelection}
+                    />
+                    {`${address.address}, ${address.city}, ${address.province}, ${address.postal_code}`}
+                  </label>
+                ))}
+                <button
+                  type="button"
+                  onClick={handleUseDifferentAddress}
+                  style={{ marginTop: "10px", padding: "10px", backgroundColor: "black", color: "white" }}
+                >
+                  Use a Different Address
+                </button>
+              </>
+            ) : (
+              <AddressForm
+                addressData={formData.deliveryAddress}
+                handleChange={(e) => {
+                  const { name, value } = e.target;
+                  setFormData({
+                    ...formData,
+                    deliveryAddress: { ...formData.deliveryAddress, [name]: value },
+                  });
+                }}
+              />
+            )}
+
+            {/* Billing */}
+            <h2>Billing Address</h2>
             <label>
               <input
                 type="radio"
                 value="same"
                 checked={formData.billingAddressSame}
-                onChange={handleBillingOptionChange}
+                onChange={() => setFormData({ ...formData, billingAddressSame: true })}
               />
-              Same as shipping address
+              Same as delivery address
             </label>
-            <br />
             <label>
               <input
                 type="radio"
                 value="different"
                 checked={!formData.billingAddressSame}
-                onChange={handleBillingOptionChange}
+                onChange={() => setFormData({ ...formData, billingAddressSame: false })}
               />
               Use a different billing address
             </label>
 
-            {!formData.billingAddressSame && renderAddressForm(formData.billingAddress, handleBillingAddressChange)}
+            {!formData.billingAddressSame && (
+              <AddressForm
+                addressData={formData.billingAddress}
+                handleChange={(e) => {
+                  const { name, value } = e.target;
+                  setFormData({
+                    ...formData,
+                    billingAddress: { ...formData.billingAddress, [name]: value },
+                  });
+                }}
+              />
+            )}
 
             <button
               type="submit"
@@ -425,45 +385,13 @@ const CheckoutPage = () => {
                 cursor: "pointer",
               }}
             >
-              Pay now
+              Pay Now
             </button>
           </form>
         </div>
 
         {/* Right Section */}
-        <div
-          style={{
-            flex: "0.5",
-            maxWidth: "300px",
-            position: "sticky",
-            top: "20px",
-          }}
-        >
-          <h2>Order Summary</h2>
-          {cartItems.map((item) => (
-            <div key={item.id} style={{ display: "flex", marginBottom: "15px" }}>
-              <img
-                src={item.image}
-                alt={item.name}
-                style={{ width: "80px", height: "80px", marginRight: "10px" }}
-              />
-              <div>
-                <Link
-                  to={`/product/${encodeURIComponent(item.name)}`}
-                  style={{ color: "black" }}
-                >
-                  {item.name}
-                </Link>
-                <p>R {item.price.toFixed(2)}</p>
-                <p>Qty: {item.quantity}</p>
-              </div>
-            </div>
-          ))}
-          <hr />
-          <p>Subtotal: R {subtotal.toFixed(2)}</p>
-          <p>Shipping: Enter shipping address</p>
-          <h3>Total: R {subtotal.toFixed(2)}</h3>
-        </div>
+        <OrderSummary cartItems={cartItems} subtotal={subtotal} />
       </div>
     </div>
   );

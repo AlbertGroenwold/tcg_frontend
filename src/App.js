@@ -10,6 +10,7 @@ import RegisterPage from "./components/register";
 import SearchResultsPage from "./components/search_results";
 import CartPage from "./components/cart";
 import CheckoutPage from "./components/checkout";
+import ConfirmationScreen from "./components/confirmation";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -29,16 +30,17 @@ const Layout = ({ children }) => {
       .catch((error) => console.error("Error fetching categories:", error));
   }, []);
 
-  const isCheckoutPage = location.pathname === "/checkout";
+  const isMinimalLayout =
+  location.pathname === "/checkout" || location.pathname.startsWith("/confirm/order/");
 
   return (
     <div className="app-container">
-      {!isCheckoutPage && <Header />}
+      {!isMinimalLayout && <Header />}
       <div className="main-content" style={{ display: "flex" }}>
-        {!isCheckoutPage && <Sidebar categories={categories} />}
+        {!isMinimalLayout && <Sidebar categories={categories} />}
         <div className="content" style={{ flex: 1 }}>{children}</div>
       </div>
-      {!isCheckoutPage && <Footer />}
+      {!isMinimalLayout && <Footer />}
     </div>
   );
 };
@@ -58,6 +60,7 @@ const App = () => {
           <Route path="/results" element={<SearchResultsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/confirm/order/:orderId" element={<ConfirmationScreen />} />
         </Routes>
       </Layout>
     </Router>
