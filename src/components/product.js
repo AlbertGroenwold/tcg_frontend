@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Get ID from the URL
+import { useParams } from 'react-router-dom'; // Get name from the URL
 import axios from 'axios';
 import QuantitySelector from './quantity_selector';
 
 const ProductDetailPage = () => {
-    const { id } = useParams(); // Get product ID from the route
+    const { name: itemName } = useParams(); // Use name from the route parameters
     const [product, setProduct] = useState(null);
     const [selectedQuantity, setSelectedQuantity] = useState(1);
 
     useEffect(() => {
         // Fetch product details from the backend
         axios
-            .get(`http://127.0.0.1:8000/api/items/${id}/`) // Adjust endpoint to match your backend
-            .then((response) => setProduct(response.data))
+            .get(`http://127.0.0.1:8000/api/items/${encodeURIComponent(itemName)}/`) // Use `name` in the URL
+            .then((response) => {
+                console.log('Product data:', response.data); // Debugging
+                setProduct(response.data);
+            })
             .catch((error) => console.error('Error fetching product details:', error));
-    }, [id]);
+    }, [itemName]);
 
     if (!product) {
         return <p>Loading product details...</p>;
@@ -23,17 +26,43 @@ const ProductDetailPage = () => {
     const handleQuantityChange = (quantity) => {
         setSelectedQuantity(quantity);
         console.log(`Selected quantity: ${quantity}`); // Debugging purpose
-    }
+    };
 
     const handleAddToCart = () => {
-        // Placeholder for future functionality
-        console.log(`Adding ${selectedQuantity} of ${product.name} to the cart.`);
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Check if the product is already in the cart
+        const existingProductIndex = cart.findIndex((item) => item.id === product.id);
+
+        if (existingProductIndex !== -1) {
+            // If the product exists, update the quantity
+            cart[existingProductIndex].quantity += selectedQuantity;
+        } else {
+            // If the product does not exist, add it to the cart
+            cart.push({
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                quantity: selectedQuantity,
+            });
+        }
+
+        // Save the updated cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log(`Added ${selectedQuantity} of ${product.name} to the cart.`);
+        alert(`${selectedQuantity} of ${product.name} has been added to the cart.`);
     };
 
     return (
         <div style={{ padding: '20px' }}>
             <h1>{product.name}</h1>
-            <p><strong>Category:</strong> {product.category}</p>
+            <p>
+                <strong>Categories:</strong>{' '}
+                {product.categories && product.categories.length > 0
+                    ? product.categories.map((category) => category.name).join(', ')
+                    : 'No categories'}
+            </p>
             <p><strong>Description:</strong> {product.description}</p>
             <p><strong>Price:</strong> ${product.price}</p>
             <p><strong>Stock:</strong> {product.stock}</p>
@@ -56,10 +85,10 @@ const ProductDetailPage = () => {
                 Add to Cart
             </button>
             {product.image && (
-                <img 
+                <img
                     src={product.image} // Use the absolute URL directly
-                    alt={product.name} 
-                    style={{ maxWidth: '300px' }} 
+                    alt={product.name}
+                    style={{ maxWidth: '300px' }}
                 />
             )}
         </div>

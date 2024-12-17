@@ -8,6 +8,7 @@ const Login = ({ onLogin }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+  
     fetch("http://127.0.0.1:8000/api/token/", {
       method: "POST",
       headers: {
@@ -15,24 +16,24 @@ const Login = ({ onLogin }) => {
       },
       body: JSON.stringify({ email, password }),
     })
-      .then((response) => {
+      .then((response) => response.json().then((data) => ({ data, response })))
+      .then(({ data, response }) => {
         if (!response.ok) {
-          throw new Error("Login failed"); // This will trigger the catch block
+          throw new Error(data.detail || "Invalid email or password");
         }
-        return response.json();
-      })
-      .then((data) => {
-        // Store access token and user email in session storage
         sessionStorage.setItem("accessToken", data.access);
         sessionStorage.setItem("userEmail", email);
-  console.log("Access token saved:", sessionStorage.getItem("accessToken"));
-        onLogin(email); // Notify parent component that login was successful
+        onLogin(email, data.access); // Pass both email and token
       })
       .catch((error) => {
-        console.error("Login error:", error);
-        setErrorMessage("Invalid email or password"); // Correctly use setErrorMessage
+        console.error("Login error:", error.message);
+        setErrorMessage("Invalid email or password");
       });
   };
+  
+  
+  
+  
 
   return (
     <form onSubmit={handleLogin} style={{ maxWidth: "400px", margin: "auto" }}>

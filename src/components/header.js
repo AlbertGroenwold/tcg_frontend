@@ -31,6 +31,10 @@ const Header = () => {
     navigate("/account"); // Navigate to the account page
   };
 
+  const handleCartClick = () => {
+    navigate("/cart"); // Navigate to the account page
+  };
+
   return (
     <header>
       <div className="left-section">
@@ -73,7 +77,11 @@ const Header = () => {
           onClick={handleInfoClick}
         />
 
-        <button className={styles.icon_btn} aria-label="Shopping Cart">
+        <button 
+          className={styles.icon_btn}
+          aria-label="Shopping Cart"
+          onClick={handleCartClick} // Add click handler for Account button
+        >
           <i className="fas fa-shopping-cart"></i>
         </button>
         <button

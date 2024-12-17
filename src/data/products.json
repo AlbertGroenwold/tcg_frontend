@@ -1,10 +1,140 @@
 {
     "Pokémon": {
+        "Expansions": {
+            "Base Set Series": [
+              {"name": "Base Set", "release_date": "1999-01-09"},
+              {"name": "Jungle", "release_date": "1999-06-16"},
+              {"name": "Fossil", "release_date": "1999-10-10"},
+              {"name": "Base Set 2", "release_date": "2000-02-24"},
+              {"name": "Team Rocket", "release_date": "2000-04-24"}
+            ],
+            "Gym Series": [
+              {"name": "Gym Heroes", "release_date": "2000-08-14"},
+              {"name": "Gym Challenge", "release_date": "2000-10-16"}
+            ],
+            "Neo Series": [
+              {"name": "Neo Genesis", "release_date": "2000-12-16"},
+              {"name": "Neo Discovery", "release_date": "2001-06-01"},
+              {"name": "Southern Islands", "release_date": "2001-07-31"},
+              {"name": "Neo Revelation", "release_date": "2001-09-21"},
+              {"name": "Neo Destiny", "release_date": "2002-02-28"}
+            ],
+            "Legendary Collection": [
+              {"name": "Legendary Collection", "release_date": "2002-05-24"}
+            ],
+            "e-Card Series": [
+              {"name": "Expedition Base Set", "release_date": "2002-09-15"},
+              {"name": "Aquapolis", "release_date": "2003-01-15"},
+              {"name": "Skyridge", "release_date": "2003-05-12"}
+            ],
+            "EX Series": [
+              {"name": "EX Ruby & Sapphire", "release_date": "2003-06-18"},
+              {"name": "EX Sandstorm", "release_date": "2003-09-18"},
+              {"name": "EX Dragon", "release_date": "2003-11-24"},
+              {"name": "EX Team Magma vs Team Aqua", "release_date": "2004-03-15"},
+              {"name": "EX Hidden Legends", "release_date": "2004-06-14"},
+              {"name": "EX FireRed & LeafGreen", "release_date": "2004-08-30"},
+              {"name": "EX Team Rocket Returns", "release_date": "2004-11-08"},
+              {"name": "EX Deoxys", "release_date": "2005-02-14"},
+              {"name": "EX Emerald", "release_date": "2005-05-09"},
+              {"name": "EX Unseen Forces", "release_date": "2005-08-22"},
+              {"name": "EX Delta Species", "release_date": "2005-10-31"},
+              {"name": "EX Legend Maker", "release_date": "2006-02-13"},
+              {"name": "EX Holon Phantoms", "release_date": "2006-05-03"},
+              {"name": "EX Crystal Guardians", "release_date": "2006-08-30"},
+              {"name": "EX Dragon Frontiers", "release_date": "2006-11-08"},
+              {"name": "EX Power Keepers", "release_date": "2007-02-14"}
+            ],
+            "Diamond & Pearl Series": [
+              {"name": "Diamond & Pearl", "release_date": "2007-05-23"},
+              {"name": "Mysterious Treasures", "release_date": "2007-08-22"},
+              {"name": "Secret Wonders", "release_date": "2007-11-07"},
+              {"name": "Great Encounters", "release_date": "2008-02-13"},
+              {"name": "Majestic Dawn", "release_date": "2008-05-21"},
+              {"name": "Legends Awakened", "release_date": "2008-08-20"},
+              {"name": "Stormfront", "release_date": "2008-11-05"}
+            ],
+            "Platinum Series": [
+              {"name": "Platinum", "release_date": "2009-02-11"},
+              {"name": "Rising Rivals", "release_date": "2009-05-16"},
+              {"name": "Supreme Victors", "release_date": "2009-08-19"},
+              {"name": "Arceus", "release_date": "2009-11-04"}
+            ],
+            "HeartGold & SoulSilver Series": [
+              {"name": "HeartGold & SoulSilver", "release_date": "2010-02-10"},
+              {"name": "Unleashed", "release_date": "2010-05-12"},
+              {"name": "Undaunted", "release_date": "2010-08-18"},
+              {"name": "Triumphant", "release_date": "2010-11-03"}
+            ],
+            "Call of Legends": [
+              {"name": "Call of Legends", "release_date": "2011-02-09"}
+            ],
+            "Black & White Series": [
+              {"name": "Black & White", "release_date": "2011-04-25"},
+              {"name": "Emerging Powers", "release_date": "2011-08-31"},
+              {"name": "Noble Victories", "release_date": "2011-11-16"},
+              {"name": "Next Destinies", "release_date": "2012-02-08"},
+              {"name": "Dark Explorers", "release_date": "2012-05-09"},
+              {"name": "Dragons Exalted", "release_date": "2012-08-15"},
+              {"name": "Boundaries Crossed", "release_date": "2012-11-07"},
+              {"name": "Plasma Storm", "release_date": "2013-02-06"},
+              {"name": "Plasma Freeze", "release_date": "2013-05-08"},
+              {"name": "Plasma Blast", "release_date": "2013-08-14"},
+              {"name": "Legendary Treasures", "release_date": "2013-11-06"}
+            ],
+            "XY Series": [
+              {"name": "XY", "release_date": "2014-02-05"},
+              {"name": "Flashfire", "release_date": "2014-05-07"},
+              {"name": "Furious Fists", "release_date": "2014-08-13"},
+              {"name": "Phantom Forces", "release_date": "2014-11-05"},
+              {"name": "Primal Clash", "release_date": "2015-02-04"},
+              {"name": "Roaring Skies", "release_date": "2015-05-06"},
+              {"name": "Ancient Origins", "release_date": "2015-08-12"},
+              {"name": "BREAKthrough", "release_date": "2015-11-04"},
+              {"name": "BREAKpoint", "release_date": "2016-02-03"},
+              {"name": "Fates Collide", "release_date": "2016-05-02"},
+              {"name": "Steam Siege", "release_date": "2016-08-03"},
+              {"name": "Evolutions", "release_date": "2016-11-02"}
+            ],
+            "Sun & Moon Series": [
+              {"name": "Sun & Moon", "release_date": "2017-02-03"},
+              {"name": "Guardians Rising", "release_date": "2017-05-05"},
+              {"name": "Burning Shadows", "release_date": "2017-08-04"},
+              {"name": "Crimson Invasion", "release_date": "2017-11-03"},
+              {"name": "Ultra Prism", "release_date": "2018-02-02"},
+              {"name": "Forbidden Light", "release_date": "2018-05-04"},
+              {"name": "Celestial Storm", "release_date": "2018-08-03"},
+              {"name": "Lost Thunder", "release_date": "2018-11-02"},
+              {"name": "Team Up", "release_date": "2019-02-01"},
+              {"name": "Unbroken Bonds", "release_date": "2019-05-03"},
+              {"name": "Unified Minds", "release_date": "2019-08-02"},
+              {"name": "Cosmic Eclipse", "release_date": "2019-11-01"}
+            ],
+            "Sword & Shield Series": [
+              {"name": "Vivid Voltage", "release_date": "2020-11-13"},
+              {"name": "Battle Styles", "release_date": "2021-03-19"},
+              {"name": "Chilling Reign", "release_date": "2021-06-18"},
+              {"name": "Evolving Skies", "release_date": "2021-08-27"},
+              {"name": "Fusion Strike", "release_date": "2021-11-12"},
+              {"name": "Brilliant Stars", "release_date": "2022-02-25"},
+              {"name": "Astral Radiance", "release_date": "2022-05-27"},
+              {"name": "Lost Origin", "release_date": "2022-09-09"},
+              {"name": "Silver Tempest", "release_date": "2022-11-11"}
+            ],
+            "Scarlet & Violet Series": [
+              {"name": "Scarlet & Violet", "release_date": "2023-03-31"},
+              {"name": "Paldea Evolved", "release_date": "2023-06-09"},
+              {"name": "Obsidian Flames", "release_date": "2023-08-11"},
+              {"name": "Paradox Rift", "release_date": "2023-11-03"},
+              {"name": "Temporal Forces", "release_date": "2024-03-22"},
+              {"name": "Twilight Masquerade", "release_date": "2024-05-24"},
+              {"name": "Stellar Crown", "release_date": "2024-09-13"},
+              {"name": "Surging Sparks", "release_date": "2024-11-08"}
+            ]
+        },          
         "Sealed Product": ["Booster Packs", "Booster Boxes", "Elite Trainer Boxes", "Tins"],
-        "Opened Product": {
-            "Series 1": ["Expansion 1A", "Expansion 1B"],
-            "Series 2": ["Expansion 2A", "Expansion 2B"]
-        }
+        "Opened Product": ["Series1", "Series2", "Series3", "Series4"]
     },
-    "Accessories": ["Sleeves", "Binders", "Deck Boxes"]
+    "Accessories": ["Sleeves", "Binders"]
+
 }
