@@ -99,7 +99,7 @@ const CheckoutPage = () => {
   
 
   const subtotal = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + Number(item.price) * Number(item.quantity),
     0
   );
 

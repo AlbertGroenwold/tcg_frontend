@@ -17,6 +17,7 @@ import TermsOfService from "./components/termsofservice";
 import ShippingPolicy from "./components/shippingpolicy";
 import PrivacyPolicy from "./components/privacypolicy";
 import ReturnPolicy from "./components/returnpolicy";
+import HomePage from "./components/home";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -57,7 +58,7 @@ const App = () => {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<h2>Welcome to the Store</h2>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/collections/:category" element={<CollectionsPage />} />
           <Route path="/collections/:parent/:category" element={<CollectionsPage />} />
           <Route path="/product/:name" element={<ProductDetailPage />} />
@@ -73,6 +74,7 @@ const App = () => {
           <Route path="/shippingpolicy" element={<ShippingPolicy/>}/>
           <Route path="/privacypolicy" element={<PrivacyPolicy/>}/>
           <Route path="/returnpolicy" element={<ReturnPolicy/>}/>
+          <Route path="/orders/:orderId" element={<AccountPage />} />
         </Routes>
       </Layout>
     </Router>

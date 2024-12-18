@@ -97,3 +97,11 @@ aside {
 .level-5 {
     padding-left: 100px;
 }
+
+.nav-host {
+  position: sticky; /* Makes the div stick to the top */
+  top: 10px; /* Adds a small space at the top */
+  z-index: 1000; /* Ensure it stays above other elements */
+  background-color: inherit; /* Matches the background of the sidebar container */
+  padding-top: 5px; /* Optional: Add some inner spacing for better aesthetics */
+}
