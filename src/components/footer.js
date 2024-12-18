@@ -34,16 +34,22 @@ const Footer = () => {
         <h4>Quick Links</h4>
         <ul className={styles.link_list}>
           <li>
-            <a>About Us</a>
+            <a href="/aboutus">About Us</a>
           </li>
           <li>
-            <a>Contact Us</a>
+            <a href="/contactus">Contact Us</a>
           </li>
           <li>
-            <a>Terms of Service</a>
+            <a href="/termsofservice">Terms of Service</a>
           </li>
           <li>
-            <a>Shipping Policy</a>
+            <a href="/shippingpolicy">Shipping Policy</a>
+          </li>
+          <li>
+            <a href="/privacypolicy">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="/returnpolicy">Return Policy</a>
           </li>
         </ul>
       </div>

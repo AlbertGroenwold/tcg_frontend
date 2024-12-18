@@ -11,6 +11,12 @@ import SearchResultsPage from "./components/search_results";
 import CartPage from "./components/cart";
 import CheckoutPage from "./components/checkout";
 import ConfirmationScreen from "./components/confirmation";
+import AboutUs from "./components/aboutUs";
+import ContactUs from "./components/contactus";
+import TermsOfService from "./components/termsofservice";
+import ShippingPolicy from "./components/shippingpolicy";
+import PrivacyPolicy from "./components/privacypolicy";
+import ReturnPolicy from "./components/returnpolicy";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -61,6 +67,12 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/confirm/order/:orderId" element={<ConfirmationScreen />} />
+          <Route path="/aboutus" element={<AboutUs/>}/>
+          <Route path="/contactus" element={<ContactUs/>}/>
+          <Route path="/termsofservice" element={<TermsOfService/>}/>
+          <Route path="/shippingpolicy" element={<ShippingPolicy/>}/>
+          <Route path="/privacypolicy" element={<PrivacyPolicy/>}/>
+          <Route path="/returnpolicy" element={<ReturnPolicy/>}/>
         </Routes>
       </Layout>
     </Router>
