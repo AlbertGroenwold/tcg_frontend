@@ -295,7 +295,7 @@ const AccountPage = () => {
               <tr key={detail.id}>
                 <td>
                   <button
-                    onClick={() => handleItemClick(detail.item.id)}
+                    onClick={() => handleItemClick(detail.item.name)}
                     style={{
                       backgroundColor: "transparent",
                       color: "blue",

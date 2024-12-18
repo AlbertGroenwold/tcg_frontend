@@ -11,6 +11,7 @@ import SearchResultsPage from "./components/search_results";
 import CartPage from "./components/cart";
 import CheckoutPage from "./components/checkout";
 import ConfirmationScreen from "./components/confirmation";
+import HomePage from "./components/home";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -51,7 +52,7 @@ const App = () => {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<h2>Welcome to the Store</h2>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/collections/:category" element={<CollectionsPage />} />
           <Route path="/collections/:parent/:category" element={<CollectionsPage />} />
           <Route path="/product/:name" element={<ProductDetailPage />} />
@@ -61,6 +62,7 @@ const App = () => {
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/confirm/order/:orderId" element={<ConfirmationScreen />} />
+          <Route path="/orders/:orderId" element={<AccountPage />} />
         </Routes>
       </Layout>
     </Router>

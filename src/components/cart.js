@@ -15,7 +15,11 @@ const CartPage = () => {
     // Remove item from cart
     const updatedCart = cart.filter((item) => item.id !== productId);
     setCart(updatedCart); // Update state
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart.map(item => ({
+      ...item,
+      price: Number(item.price), // Ensure price is stored as a number
+      quantity: Number(item.quantity) // Ensure quantity is also a number
+    }))));
   };
 
   const handleQuantityChange = (productId, newQuantity) => {
@@ -24,7 +28,11 @@ const CartPage = () => {
       item.id === productId ? { ...item, quantity: newQuantity } : item
     );
     setCart(updatedCart); // Update state
-    localStorage.setItem("cart", JSON.stringify(updatedCart)); // Update localStorage
+    localStorage.setItem("cart", JSON.stringify(cart.map(item => ({
+      ...item,
+      price: Number(item.price), // Ensure price is stored as a number
+      quantity: Number(item.quantity) // Ensure quantity is also a number
+    }))));
   };
 
   const handleCheckout = () => {

@@ -75,7 +75,9 @@ const Sidebar = ({ categories = [] }) => {
 
   return (
     <aside className="sidebar-container">
-      <nav>{renderCategories(categories)}</nav>
+      <div className="nav-host">
+        <nav>{renderCategories(categories)}</nav>
+      </div>
     </aside>
   );
 };
