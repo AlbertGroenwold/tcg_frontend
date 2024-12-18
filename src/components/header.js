@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "../styles/header.module.css";
 import { useNavigate } from "react-router-dom";
+import Searchbar from "./searchbar";
 
 const Header = () => {
   const handleInfoClick = () => {
@@ -9,7 +10,7 @@ const Header = () => {
     footer.scrollIntoView({ behavior: "smooth" });
   };
 
-  const navigate = useNavigate();  // Use navigate hook from react-router
+  const navigate = useNavigate(); // Use navigate hook from react-router
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (event) => {
@@ -17,13 +18,13 @@ const Header = () => {
   };
 
   const handleSearch = () => {
-    if (!searchQuery) return;  // Don't search if query is empty
+    if (!searchQuery) return; // Don't search if query is empty
 
     try {
       // Navigate to the search results page and pass the query as a URL parameter
       navigate(`/results?item=${encodeURIComponent(searchQuery)}`);
     } catch (err) {
-      console.error(err);  // Log error for debugging
+      console.error(err); // Log error for debugging
     }
   };
 
@@ -55,21 +56,11 @@ const Header = () => {
             aria-label="Instagram"
           ></a>
         </div>
-        <div className="logo"><a href="/">Logo</a></div>
+        <div className="logo">
+          <a href="/">Logo</a>
+        </div>
       </div>
-      <div className={styles.search_container}>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={handleSearchChange}
-          id={styles.search_bar}
-          placeholder="Search..."
-        />
-        <button
-          className={`${styles.search_btn} fa-solid fa-magnifying-glass`}
-          onClick={handleSearch}
-        ></button>
-      </div>
+      <Searchbar></Searchbar>
       <div className={styles.right_section}>
         <button
           className={`${styles.icon_btn} fa-solid fa-circle-info`}
@@ -77,7 +68,7 @@ const Header = () => {
           onClick={handleInfoClick}
         />
 
-        <button 
+        <button
           className={styles.icon_btn}
           aria-label="Shopping Cart"
           onClick={handleCartClick} // Add click handler for Account button

@@ -73,22 +73,3 @@ header {
   color: #0077b5; /* Change color on hover (e.g., blue for Facebook) */
 }
 
-.search_container {
-  display: flex;
-  align-items: center;
-  width: 300px; /* Adjust width as needed */
-}
-#search_bar {
-  width: 100%;
-  padding: 8px;
-}
-.search_btn {
-  padding: 8px 12px;
-  color: black;
-  border: none;
-  cursor: pointer;/* Space between input and button */
-  font-size: 16px;
-}
-.search-btn:hover {
-  background-color: #0056b3;
-}
